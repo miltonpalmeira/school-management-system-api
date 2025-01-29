@@ -1,7 +1,11 @@
-const { authorize } = require('./auth.middleware');
+const config = require('../config/index.config.js');
+const { authenticate } = require('./__auth.mw.js')({ config });
 
-// Protect routes with RBAC
-const superadminOnly = authorize(['superadmin']);
-const adminOnly = authorize(['admin', 'superadmin']);
-
-module.exports = { superadminOnly, adminOnly };
+module.exports = (roles) => {
+    return (req, res, next) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ message: 'Access denied. You do not have the required role.' });
+        }
+        next();
+    };
+};
