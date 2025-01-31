@@ -66,21 +66,21 @@ To test the enrollment functionality or any other API routes, make sure the back
 The project follows a modular structure, with the following layout:
 
 student-enrollment-system/
-├── __mocks__/                # Mocked modules or data for testing
-├── cache/                    # Cache-related services or data management
-├── config/                   
-├── connect/                  # Database connection setup
-├── controllers/              # API controllers (logic for handling requests)
-├── libs/                     # Libraries or helper functions
-├── loaders/                  # App initialization and dependency loading
-├── managers/                 
-├── models/                   # Mongoose models
-├── mws/                      # Middlewares (e.g., auth, validation)
-├── public/                   # Public assets (e.g., images, fonts)
-├── routes/                   # API routes
-├── static_arch/              
-├── tests/                    # Backend tests
-├── utils/                    # Utility functions or helpers
-├── .env                      # Environment variables
-├── package.json              # Backend dependencies and scripts
-└── README.md                 # This file
+- __mocks__/                # Mocked modules or data for testing
+- cache/                    # Cache-related services or data management
+- config/                   
+- connect/                  # Database connection setup
+- controllers/              # API controllers (logic for handling requests)
+- libs/                     # Libraries or helper functions
+- loaders/                  # App initialization and dependency loading
+- managers/                 
+- models/                   # Mongoose models
+- mws/                      # Middlewares (e.g., auth, validation)
+- public/                   # Public assets (e.g., images, fonts)
+- routes/                   # API routes
+- static_arch/              
+- tests/                    # Backend tests
+- utils/                    # Utility functions or helpers
+- .env                      # Environment variables
+- package.json              # Backend dependencies and scripts
+- README.md                 # This file
