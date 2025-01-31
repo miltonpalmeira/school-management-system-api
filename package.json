@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
+    "start": "nodemon app.js",
     "test": "jest --runInBand --setupFiles dotenv/config --verbose"
   },
   "author": "",
