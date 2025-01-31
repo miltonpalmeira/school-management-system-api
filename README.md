@@ -27,18 +27,18 @@ Git
 # Backend Setup
 Clone the repository:
 
-bash
+
 git clone https://github.com/your-username/student-enrollment-system.git
 cd student-enrollment-system
 Install dependencies:
 
-bash
+
 npm install
 Set up environment variables:
 
 Rename the file .env.example to .env
 
-bash
+
 npm start
 This will start the server on http://localhost:30000.
 
@@ -50,10 +50,10 @@ You can now create, update, and enroll students into schools and classrooms thro
 ## Backend Tests
 The project uses Jest for testing the backend. To run the tests, use the following command:
 
-bash
+
 npm test
 
-bash
+
 npm run test
 
 # Running Tests for Specific Endpoints
