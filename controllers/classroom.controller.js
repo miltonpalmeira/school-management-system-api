@@ -53,9 +53,9 @@ exports.createClassroom = async (req, res) => {
     }
 
     const classroom = new Classroom({ name, school, capacity, resources });
-    await classroom.save();
+    const savedClassroom = await classroom.save();
 
-    res.status(201).json(classroom);
+    res.status(201).json(savedClassroom);
   } catch (err) {
     res
       .status(400)
@@ -120,6 +120,7 @@ exports.getClassroomById = async (req, res) => {
     }
     res.status(200).json(classroom);
   } catch (err) {
+    console.log(err);
     res
       .status(400)
       .json({ message: 'Error fetching classroom', error: err.message });

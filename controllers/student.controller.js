@@ -65,8 +65,8 @@ exports.createStudent = async (req, res) => {
     }
 
     const student = new Student({ firstName, lastName, school, classroom });
-    await student.save();
-    res.status(201).json(student);
+    const newStudent = await student.save();
+    res.status(201).json(newStudent);
   } catch (err) {
     res
       .status(400)
@@ -240,11 +240,16 @@ exports.enrollStudent = async (req, res) => {
   try {
     const { school, classroom } = req.body;
     const schoolExists = await School.findById(school);
+    console.log('school')
+    console.log(school)
+    console.log('schoolExists')
+    console.log(schoolExists)
     if (!schoolExists) {
       return res.status(404).json({ message: 'School not found' });
     }
 
     const classroomExists = await Classroom.findById(classroom);
+    console.log(classroomExists)
     if (
       !classroomExists ||
       classroomExists.school.toString() !== school.toString()
@@ -255,9 +260,11 @@ exports.enrollStudent = async (req, res) => {
     }
 
     const student = new Student({ school, classroom });
-    await student.save();
-    res.status(201).json(student);
+    const enrolledStudent = await student.save();
+    console.log(enrolledStudent)
+    res.status(201).json(enrolledStudent);
   } catch (err) {
+    console.log(err)
     res
       .status(400)
       .json({ message: 'Error enrolling student', error: err.message });

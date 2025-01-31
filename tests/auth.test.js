@@ -1,38 +1,50 @@
-const request = require('supertest');
-const app = require('../app');
-const jwt = require('jsonwebtoken');
-const { config } = require('dotenv');
-config();
+require('./setup');
+const { login } = require('../controllers/auth.controller');
+const User = require('../models/user.model');
+const { mockResponse, mockRequest } = require('mock-req-res'); 
 
-describe('Authorization Middleware', () => {
-    let token;
+jest.mock('../models/user.model');
 
-    beforeAll(() => {
-        token = jwt.sign({ userId: 'testUser', role: 'superadmin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+describe('Auth Controller Tests', () => {
+  it('should return token when credentials are valid', async () => {
+    const mockUser = {
+      _id: '12345',
+      email: 'superadmin@example.com',
+      password: 'password123',
+      role: 'superadmin',
+      comparePassword: jest.fn().mockResolvedValue(true),
+    };
+
+    User.findOne = jest.fn().mockResolvedValue(mockUser);
+
+    const req = mockRequest({
+      body: { email: 'superadmin@example.com', password: 'password123' },
     });
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
 
-    it('should allow access with valid token', async () => {
-        const res = await request(app)
-            .get('/students')
-            .set('Authorization', `Bearer ${token}`);
+    await login(req, res);
 
-        expect(res.statusCode).toBe(200);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ token: expect.any(String) }));
+  });
+
+  it('should return 400 if credentials are invalid', async () => {
+    const req = mockRequest({
+      body: { email: 'wrongemail', password: 'wrongpassword' },
     });
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
 
-    it('should deny access without token', async () => {
-        const res = await request(app)
-            .get('/students');
+    User.findOne = jest.fn().mockResolvedValue(null);
 
-        expect(res.statusCode).toBe(401);
-        expect(res.body.message).toBe('Access denied. No token provided.');
-    });
+    await login(req, res);
 
-    it('should deny access with invalid token', async () => {
-        const res = await request(app)
-            .get('/students')
-            .set('Authorization', 'Bearer invalidToken');
-
-        expect(res.statusCode).toBe(400);
-        expect(res.body.message).toBe('Invalid token.');
-    });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
+  });
 });

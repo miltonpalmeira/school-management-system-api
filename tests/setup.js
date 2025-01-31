@@ -1,12 +1,28 @@
 const mongoose = require('mongoose');
-const { config } = require('dotenv');
-config();
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const app = require('../app');
+
+let mongoServer;
+let server;
 
 beforeAll(async () => {
-    const dbUrl = process.env.TEST_DB_URL || 'mongodb://localhost:27017/test_schooldb';
-    await mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoServer = await MongoMemoryServer.create();
+  await mongoose.connect(mongoServer.getUri(), {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  server = app.listen(30001, () => console.log('Test server running on port 30001'));
+
+  await new Promise(resolve => setTimeout(resolve, 1000))
 });
 
 afterAll(async () => {
-    await mongoose.connection.close();
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongoServer.stop();
+
+  if (server) server.close();
 });
+
+module.exports = { mongoServer };

@@ -49,8 +49,8 @@ const School = require('../models/School.model');
 exports.createSchool = async (req, res) => {
     try {
         const school = new School(req.body);
-        await school.save();
-        res.status(201).json(school);
+        const savedSchool = await school.save();
+        res.status(201).json(savedSchool);
     } catch (err) {
         res.status(400).json({ message: 'Error creating school', error: err });
     }
@@ -71,14 +71,14 @@ exports.createSchool = async (req, res) => {
  *       400:
  *         description: Error fetching schools
  */
-exports.getSchools = async (req, res) => {
-    try {
-        const schools = await School.find();
-        res.status(200).json(schools);
-    } catch (err) {
-        res.status(400).json({ message: 'Error fetching schools', error: err });
-    }
-};
+    exports.getSchools = async (req, res) => {
+        try {
+            const schools = await School.find();
+            res.status(200).json(schools);
+        } catch (err) {
+            res.status(400).json({ message: 'Error fetching schools', error: err });
+        }
+    };
 
 /**
  * @swagger
