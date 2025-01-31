@@ -5,10 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand --setupFiles dotenv/config"
   },
   "author": "",
   "license": "ISC",
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ]
+  },
   "dependencies": {
     "aeon-machine": "^0.0.9",
     "bcrypt": "^5.0.1",
@@ -20,16 +25,20 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
+    "mock-req-res": "^1.2.1",
     "mongoose": "^8.9.5",
     "nanoid": "^3.3.2",
     "nodemon": "^3.1.9",
     "oyster-db": "*",
     "qantra-pineapple": "^1.0.7",
     "request-ip": "^2.1.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "useragent": "^2.3.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.3",
     "supertest": "^7.0.0"
   }
 }
