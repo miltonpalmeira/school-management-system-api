@@ -38,6 +38,9 @@ Set up environment variables:
 
 Rename the file .env.example to .env
 
+Change the NODE_ENV to dev when you want to run the backend and test with swagger
+Change the NODE_ENV to test when you want to run the tests with jest
+
 
 npm start
 This will start the server on http://localhost:30000.
